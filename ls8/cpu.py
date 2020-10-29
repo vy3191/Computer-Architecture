@@ -64,19 +64,22 @@ class CPU:
         print()
 
     def ram_read(self, index):
-        return self.ram[index]    
+        return self.ram[index]   
+
+    def ram_write(self, address, value):
+        return self.ram[address] = value
 
     def run(self):
         """Run the CPU."""
         running = True
         
         while running:
-            executable = self.ram[self.count]
+            ir = self.ram[self.count]   # ir= _Instruction Register_.
 
-            if executable ==  0b10000010:
+            if ir ==  0b10000010:
                 self.register[]
 
-            if executable ==  0b00000001:
+            if ir ==  0b00000001:
                 running = False
                 self.pc += 1    
 
