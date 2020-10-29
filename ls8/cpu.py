@@ -74,10 +74,13 @@ class CPU:
         running = True
         
         while running:
-            ir = self.ram[self.count]   # ir= _Instruction Register_.
+            ir = self.ram[self.count]   # ir=  _Instruction Register_.
 
             if ir ==  0b10000010:
-                self.register[]
+                index = self.ram_read(self.pc+1)
+                value = self.ram_read(self.pc+2)
+                self.register[index] = value
+                self.pc += 3
 
             if ir ==  0b00000001:
                 running = False
