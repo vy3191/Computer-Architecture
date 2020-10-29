@@ -67,23 +67,32 @@ class CPU:
         return self.ram[index]   
 
     def ram_write(self, address, value):
-        return self.ram[address] = value
+        # return self.ram[address] = value
+        pass
 
     def run(self):
         """Run the CPU."""
         running = True
         
         while running:
-            ir = self.ram[self.count]   # ir=  _Instruction Register_.
+            # ir = self.ram[self.pc]   # ir=  _Instruction Register_.
+            ir = self.ram_read(self.pc)
 
-            if ir ==  0b10000010:
-                index = self.ram_read(self.pc+1)
-                value = self.ram_read(self.pc+2)
-                self.register[index] = value
+            if ir ==  0b10000010: #LDI    index =0
+                operand_a = self.ram_read(self.pc+1)  # index at 1
+                operand_b = self.ram_read(self.pc+2)  # index at 2 this is the value gives (8)
+                self.register[operand_a] = operand_b   # register[0] = 8
                 self.pc += 3
 
-            if ir ==  0b00000001:
+            elif ir ==  0b00000001: #HLT   
                 running = False
-                self.pc += 1    
+                self.pc += 1  
+
+            elif ir == 0b01000111:  # PRN    this is the index at 3 --->this should print
+                operand_a = self.ram_read(self.pc+1)  # grab the next pc value in decimal
+                print(self.register[operand_a])   # this should print 8
+                self.pc += 2
+
+
 
         
