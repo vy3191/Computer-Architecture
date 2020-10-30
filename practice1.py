@@ -20,9 +20,12 @@ with open("practice5.py") as f:
         line_split = line.split('#')
         # Extract the command from the split line
         # It will be the first value in our split line
-        command = line_split[0]
+        command = line_split[0].strip()
+        if command == '':
+            continue
         command_num = int(command,10)  # for binary pass 2 instead of 10
         print(command_num)
+        memory.append(command_num)
 
 
 
@@ -84,3 +87,4 @@ while running:
         pc += 3
     else:
         print('Something went wrong')    
+print(f'Memory>>>>>>>>>', memory)        
