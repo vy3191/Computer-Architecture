@@ -1,0 +1,15 @@
+1  #PRINT WORLD
+3   #PRINT 25
+25 
+4  #SAVE VALUE 42 in R2
+42 
+2 
+4  #SAVE VALUE 37 in R3
+37 
+3 
+6  #ADD R3 + R2 store the result in R3
+3 
+2 
+5  #PRINT RESULT IN REGISTER 3
+3 
+2
