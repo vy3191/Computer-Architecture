@@ -21,8 +21,12 @@ class CPU:
                 split_line = each_line.split('#')
                 # grab the first element at the index 0 and trim the  space if any
                 get_item_at_zero = split_line[0].strip()
-                self.ram[address] = int(get_item_at_zero, 2)
-                address += 1
+              
+                if get_item_at_zero == '':
+                    continue
+                # print(f'before integers>>>bin{get_item_at_zero}')
+                self.ram[address] = int(get_item_at_zero, 2)               
+                address += 1   
         # print(self.ram)  
         # For now, we've just hardcoded a program:
         # program = [
@@ -90,16 +94,17 @@ class CPU:
         while running:
             # ir = self.ram[self.pc]   # ir=  _Instruction Register_.
             ir = self.ram_read(self.pc)
-           
+            # print(f'Printing all ir values{ir}')
             if ir ==  0b10000010: #LDI    index =0
                 operand_a = self.ram_read(self.pc+1)  # index at 1
                 operand_b = self.ram_read(self.pc+2)  # index at 2 this is the value gives (8)
                 self.register[operand_a] = operand_b   # register[0] = 8
                 self.pc += 3
 
-            elif ir ==  0b00000001: #HLT   
-                running = False
+            elif ir ==  0b00000001: #HLT  
+                print('working for printing') 
                 self.pc += 1  
+                running = False
                        
             elif ir == 0b01000111:  # PRN    this is the index at 3 --->this should print
                 operand_a = self.ram_read(self.pc+1)  # grab the next pc value in decimal
