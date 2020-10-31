@@ -21,9 +21,9 @@ class CPU:
                 split_line = each_line.split('#')
                 # grab the first element at the index 0 and trim the  space if any
                 get_item_at_zero = split_line[0].strip()
-                self.ram[address] = get_item_at_zero
+                self.ram[address] = int(get_item_at_zero, 2)
                 address += 1
-        print(self.ram)  
+        # print(self.ram)  
         # For now, we've just hardcoded a program:
         # program = [
         #     # From print8.ls8
@@ -82,7 +82,7 @@ class CPU:
         while running:
             # ir = self.ram[self.pc]   # ir=  _Instruction Register_.
             ir = self.ram_read(self.pc)
-
+           
             if ir ==  0b10000010: #LDI    index =0
                 operand_a = self.ram_read(self.pc+1)  # index at 1
                 operand_b = self.ram_read(self.pc+2)  # index at 2 this is the value gives (8)
@@ -97,6 +97,27 @@ class CPU:
                 operand_a = self.ram_read(self.pc+1)  # grab the next pc value in decimal
                 print(self.register[operand_a])   # this should print 8
                 self.pc += 2
+            elif ir == 0b10000010: #LDI R1,9  
+                operand_a1 = self.ram_read(self.pc+1)  # this is the index
+                operand_b1 = self.ram_read(self.pc+2)  # this is the value 9 storing 
+                self.register[operand_a1] = operand_b1
+                self.pc += 3
+            elif ir == 0b10100010: # MUL R0,R1
+                # grab the indices
+                index_1 = self.ram_read(self.pc+1)
+                index_2 = self.ram_read(self.pc+2)
+                # get the value using indices
+                value_at_index_1 = self.register[index_1]
+                value_at_index_2 = self.register[index_2]
+                # multiply the value
+                mul_value = value_at_index_1 * value_at_index_2
+                # print the value now
+                print(f'The is multiplied value>>>>>{mul_value}')
+                self.pc += 3
+            print(f'Register>>>>{self.register}')    
+
+
+
 
 
 
