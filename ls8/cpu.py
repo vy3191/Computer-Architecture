@@ -12,27 +12,31 @@ class CPU:
         self.pc = 0
         self.sp = 7
 
-    def load(self):
+    def load(self, file_name):
         """Load a program into memory."""
-
+        # address value for tracking the index of the ram memory
         address = 0
-
+        with open(file_name) as f:
+            for each_line in f:
+                split_line = each_line.split('#')
+                # grab the first element at the index 0 and trim the  space if any
+                get_item_at_zero = split_line[0].strip()
+                self.ram[address] = get_item_at_zero
+                address += 1
+        print(self.ram)  
         # For now, we've just hardcoded a program:
-
-        program = [
-            # From print8.ls8
-            0b10000010, # LDI R0,8
-            0b00000000,
-            0b00001000,
-            0b01000111, # PRN R0
-            0b00000000,
-            0b00000001, # HLT
-        ]
-
-        for instruction in program:
-            self.ram[address] = instruction
-            address += 1
-
+        # program = [
+        #     # From print8.ls8
+        #     0b10000010, # LDI R0,8
+        #     0b00000000,
+        #     0b00001000,
+        #     0b01000111, # PRN R0
+        #     0b00000000,
+        #     0b00000001, # HLT
+        # ]
+        # for instruction in program:
+        #     self.ram[address] = instruction
+        #     address += 1
 
     def alu(self, op, reg_a, reg_b):
         """ALU operations."""
@@ -69,6 +73,7 @@ class CPU:
     def ram_write(self, address, value):
         # return self.ram[address] = value
         pass
+     
 
     def run(self):
         """Run the CPU."""
