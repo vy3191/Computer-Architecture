@@ -42,10 +42,18 @@ class CPU:
         """ALU operations."""
 
         if op == "ADD":
-            self.reg[reg_a] += self.reg[reg_b]
+            self.register[reg_a] += self.register[reg_b]
         #elif op == "SUB": etc
+        elif op == "MUL":
+            return self.register[reg_a] * self.register[reg_b] # a = a * b  8 = 8 * 9
+
         else:
             raise Exception("Unsupported ALU operation")
+
+    def multiply(self):
+        mul_val = self.alu('MUL', self.ram_read(self.pc+1), self.ram_read(self.pc+2))   
+        print(f'Multiplication value>>>>>>{mul_val}')  
+        self.pc += 3
 
     def trace(self):
         """
@@ -92,28 +100,30 @@ class CPU:
             elif ir ==  0b00000001: #HLT   
                 running = False
                 self.pc += 1  
-
+                       
             elif ir == 0b01000111:  # PRN    this is the index at 3 --->this should print
                 operand_a = self.ram_read(self.pc+1)  # grab the next pc value in decimal
-                print(self.register[operand_a])   # this should print 8
+                print(f'Print 8 here>>>>>>>{self.register[operand_a]}')   # this should print 8
                 self.pc += 2
             elif ir == 0b10000010: #LDI R1,9  
                 operand_a1 = self.ram_read(self.pc+1)  # this is the index
                 operand_b1 = self.ram_read(self.pc+2)  # this is the value 9 storing 
                 self.register[operand_a1] = operand_b1
                 self.pc += 3
+                         
             elif ir == 0b10100010: # MUL R0,R1
-                # grab the indices
-                index_1 = self.ram_read(self.pc+1)
-                index_2 = self.ram_read(self.pc+2)
-                # get the value using indices
-                value_at_index_1 = self.register[index_1]
-                value_at_index_2 = self.register[index_2]
-                # multiply the value
-                mul_value = value_at_index_1 * value_at_index_2
-                # print the value now
-                print(f'The is multiplied value>>>>>{mul_value}')
-                self.pc += 3
+                self.multiply()
+                # # grab the indices
+                # index_1 = self.ram_read(self.pc+1)
+                # index_2 = self.ram_read(self.pc+2)
+                # # get the value using indices
+                # value_at_index_1 = self.register[index_1]
+                # value_at_index_2 = self.register[index_2]
+                # # multiply the value
+                # mul_value = value_at_index_1 * value_at_index_2
+                # # print the value now
+                # print(f'The is multiplied value>>>>>{mul_value}')
+                # self.pc += 3
             print(f'Register>>>>{self.register}')    
 
 
