@@ -1,3 +1,4 @@
+import sys
 # OPERATION PRINT HELLO WORLD
 PRINT_WORLD    = 1
 HALT           = 2
@@ -6,23 +7,26 @@ SAVE           = 4
 PRINT_REGISTER = 5
 ADD            = 6    
 
-memory = [
-    PRINT_WORLD, # PRINT WORLD
-    PRINT_NUM,   # PRINT 25
-    25,
-    SAVE,        # SAVE VALUE 42 in R2
-    42,
-    2,
-    SAVE,        # SAVE VALUE 37 in R3
-    37,
-    3,
-    ADD,         # ADD R3 + R2 store the result in R3
-    3,
-    2,
-    PRINT_REGISTER, # PRINT RESULT IN REGISTER 3
-    3,
-    HALT,
-]
+memory = []
+print(sys.argv)
+if len(sys.argv) != 2:
+    print("wrong number of arguments, please pass file name")
+    sys.exit()
+#LOAD A PROGRAM INTO MEMORY
+with open("practice5.py") as f:
+    for line in f:
+        print(line)
+        # Split the line on the comment character (#)
+        line_split = line.split('#')
+        # Extract the command from the split line
+        # It will be the first value in our split line
+        command = line_split[0].strip()
+        if command == '':
+            continue
+        command_num = int(command,10)  # for binary pass 2 instead of 10
+        print(command_num)
+        memory.append(command_num)
+
 
 
 # Program counter
@@ -81,3 +85,6 @@ while running:
         registers[reg_addr_1] = val1 + val2
 
         pc += 3
+    else:
+        print('Something went wrong')    
+print(f'Memory>>>>>>>>>', memory)        
